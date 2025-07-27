@@ -150,7 +150,7 @@ const Header: React.FC = () => {
             {/* Decorative elements */}
             <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 -translate-y-2 w-6 h-6 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full opacity-20 animate-pulse"></div>
             
-            <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-gray-800 via-blue-600 to-purple-600 dark:from-white dark:via-blue-400 dark:to-purple-400 bg-clip-text text-transparent relative z-10 tracking-tight">
+            <h1 className="text-3xl md:text-3xl font-bold bg-gradient-to-r from-gray-800 via-blue-600 to-purple-600 dark:from-white dark:via-blue-400 dark:to-purple-400 bg-clip-text text-transparent relative z-10 tracking-tight">
               Sonam J Sherpa
             </h1>
             

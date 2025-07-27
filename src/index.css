@@ -10,6 +10,27 @@
   html {
     background-color: rgb(249 250 251); /* bg-gray-50 */
     transition: background-color 0.3s ease, color 0.3s ease;
+    /* Add scroll padding to account for sticky header */
+    scroll-padding-top: 40px; /* Mobile header height - reduced even more */
+    /* Enable smooth scrolling for anchor links */
+    scroll-behavior: smooth;
+  }
+  
+  @media (min-width: 768px) {
+    html {
+      scroll-padding-top: 20px; /* Desktop header height - reduced more */
+    }
+  }
+  
+  /* Alternative approach: add scroll margin to sections */
+  section[id] {
+    scroll-margin-top: 40px; /* Mobile - reduced even more */
+  }
+  
+  @media (min-width: 768px) {
+    section[id] {
+      scroll-margin-top: 20px; /* Desktop - reduced more */
+    }
   }
   
   html.dark {
