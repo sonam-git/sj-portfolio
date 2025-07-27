@@ -17,25 +17,44 @@ export const useTheme = () => {
 
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    // Check for saved theme preference or default to light mode
-    const savedTheme = localStorage.getItem('theme');
-    return savedTheme === 'dark';
-  });
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
-    // Apply theme to document
-    if (isDarkMode) {
+    // Check for saved theme on mount
+    const savedTheme = localStorage.getItem('theme');
+    const isDark = savedTheme === 'dark';
+    setIsDarkMode(isDark);
+    
+    // Apply theme immediately
+    if (isDark) {
       document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
+      document.body.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
+      document.body.classList.remove('dark');
+    }
+  }, []);
+
+  useEffect(() => {
+    // Apply theme when state changes
+    const htmlElement = document.documentElement;
+    const bodyElement = document.body;
+    
+    if (isDarkMode) {
+      htmlElement.classList.add('dark');
+      bodyElement.classList.add('dark');
+      htmlElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      htmlElement.classList.remove('dark');
+      bodyElement.classList.remove('dark');
+      htmlElement.setAttribute('data-theme', 'light');
       localStorage.setItem('theme', 'light');
     }
   }, [isDarkMode]);
 
   const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
+    setIsDarkMode(prev => !prev);
   };
 
   return (

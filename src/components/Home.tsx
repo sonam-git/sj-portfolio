@@ -203,7 +203,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* About Section with enhanced design */}
-      <section id="about" className="py-24 bg-white dark:bg-gray-800 relative transition-colors duration-300">
+      <section id="about" className="py-24 bg-gray-50 dark:bg-gray-900 relative transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16 mt-4">
             <h2 className="text-5xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6 transition-colors duration-300">
@@ -219,7 +219,7 @@ const Home: React.FC = () => {
                 I love building applications that solve real-world problems and provide 
                 exceptional user experiences.
               </p>
-              <p className="text-lg text-slate-600 leading-relaxed">
+              <p className="text-lg text-slate-600 dark:text-gray-400 leading-relaxed">
                 With a keen eye for design and a deep understanding of code, I bridge 
                 the gap between beautiful interfaces and robust functionality.
               </p>
@@ -227,16 +227,16 @@ const Home: React.FC = () => {
               {/* Stats */}
               <div className="grid grid-cols-3 gap-6 pt-8">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-600 mb-2">50+</div>
-                  <div className="text-sm text-slate-600 uppercase tracking-wide">Projects</div>
+                  <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">50+</div>
+                  <div className="text-sm text-slate-600 dark:text-gray-400 uppercase tracking-wide">Projects</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-purple-600 mb-2">3+</div>
-                  <div className="text-sm text-slate-600 uppercase tracking-wide">Years</div>
+                  <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">3+</div>
+                  <div className="text-sm text-slate-600 dark:text-gray-400 uppercase tracking-wide">Years</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-indigo-600 mb-2">100%</div>
-                  <div className="text-sm text-slate-600 uppercase tracking-wide">Passion</div>
+                  <div className="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">100%</div>
+                  <div className="text-sm text-slate-600 dark:text-gray-400 uppercase tracking-wide">Passion</div>
                 </div>
               </div>
             </div>
@@ -498,7 +498,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* Education Section */}
-      <section id="education" className="py-24 bg-white dark:bg-gray-800 relative transition-colors duration-300">
+      <section id="education" className="py-24 bg-gray-50 dark:bg-gray-900 relative transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16  mt-4">
             <h2 className="text-5xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6 transition-colors duration-300">
@@ -667,14 +667,14 @@ const Home: React.FC = () => {
       <Contact />
 
       {/* Resume Section - Placeholder */}
-      <section id="resume" className="py-24 bg-gradient-to-br from-blue-50 to-cyan-50">
+      <section id="resume" className="py-24 bg-gray-100 dark:bg-gray-800 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16  mt-4">
-            <h2 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6">
+            <h2 className="text-5xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6">
               Resume
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mb-8"></div>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+            <p className="text-xl text-slate-600 dark:text-gray-300 max-w-3xl mx-auto">
               Coming soon - Downloadable resume and detailed CV.
             </p>
           </div>

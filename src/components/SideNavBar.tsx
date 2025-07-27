@@ -116,12 +116,12 @@ const SideNavBar: React.FC = () => {
   return (
     <>
       {/* Desktop Sidebar */}
-      <div className={`hidden lg:flex fixed left-0 top-0 h-full bg-gradient-to-b from-slate-800 to-slate-900 dark:from-gray-900 dark:to-black shadow-2xl transition-all duration-300 ease-in-out z-40 ${
+      <div className={`hidden lg:flex fixed left-0 top-25 h-[calc(100vh-5rem)] bg-gradient-to-b from-slate-800 to-slate-900 dark:from-gray-900 dark:to-black shadow-2xl transition-all duration-300 ease-in-out z-40 ${
         isExpanded ? 'w-64' : 'w-16'
       }`}>
         <div className="flex flex-col w-full">
           {/* Menu Items */}
-          <nav className="flex-1 py-4 mt-25">
+          <nav className="flex-1 py-4">
             {/* Toggle Arrow - positioned above Home */}
             <div className="px-2 mb-2">
               <button
@@ -195,7 +195,7 @@ const SideNavBar: React.FC = () => {
       {/* Mobile Hamburger Button */}
       <button
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className="lg:hidden fixed top-20 left-4 z-50 p-3 bg-slate-800 text-white rounded-lg shadow-lg hover:bg-slate-700 transition-colors duration-200"
+        className="lg:hidden fixed top-4 left-4 z-50 p-3 bg-slate-800 text-white rounded-lg shadow-lg hover:bg-slate-700 transition-colors duration-200"
       >
         <svg 
           className={`w-6 h-6 transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-90' : ''}`}

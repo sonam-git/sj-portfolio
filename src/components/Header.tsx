@@ -143,10 +143,10 @@ const Header: React.FC = () => {
           </div>
         </div>
 
-        {/* Mobile Layout - Four Rows */}
+        {/* Mobile Layout - Three Rows with top margin for corner buttons */}
         <div className="md:hidden py-4 text-center space-y-3">
           {/* Row 1: Name */}
-          <div className="relative">
+          <div className="relative px-16">
             {/* Decorative elements */}
             <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 -translate-y-2 w-6 h-6 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full opacity-20 animate-pulse"></div>
             
@@ -169,19 +169,6 @@ const Header: React.FC = () => {
                 Software Engineer
               </span>
             </p>
-            
-            {/* Tech stack badges */}
-            <div className="flex justify-center items-center space-x-1.5">
-              <span className="px-2 py-0.5 text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full border border-blue-200 dark:border-blue-800">
-                React
-              </span>
-              <span className="px-2 py-0.5 text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full border border-green-200 dark:border-green-800">
-                Node.js
-              </span>
-              <span className="px-2 py-0.5 text-xs font-medium bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-full border border-purple-200 dark:border-purple-800">
-                TypeScript
-              </span>
-            </div>
           </div>
           
           {/* Row 3: Social Links */}
@@ -261,10 +248,10 @@ const Header: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Theme Toggle Button - positioned on the right like hamburger on left */}
+      {/* Mobile Theme Toggle Button - positioned at top right */}
       <button
         onClick={toggleTheme}
-        className="md:hidden fixed top-20 right-4 z-50 p-3 bg-gray-200 dark:bg-slate-800 text-gray-700 dark:text-white rounded-lg shadow-lg hover:bg-gray-300 dark:hover:bg-slate-700 transition-colors duration-200"
+        className="md:hidden fixed top-4 right-4 z-50 p-3 bg-gray-200 dark:bg-slate-800 text-gray-700 dark:text-white rounded-lg shadow-lg hover:bg-gray-300 dark:hover:bg-slate-700 transition-colors duration-200"
         title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
       >
         {isDarkMode ? (
