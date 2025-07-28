@@ -42,12 +42,12 @@ const About: React.FC = () => {
           
           {/* Profile image with gradient border */}
           <div className="relative">
-            <div className="w-80 h-80 mx-auto bg-gradient-to-br from-blue-400 via-purple-500 to-indigo-600 rounded-full p-1">
-              <div className="w-full h-full rounded-full overflow-hidden">
+            <div className="w-80 h-80 mx-auto bg-gradient-to-br from-blue-400 via-purple-500 to-indigo-600 rounded-full p-2">
+              <div className="w-full h-full rounded-full overflow-hidden bg-white dark:bg-gray-800">
                 <img 
-                  src="/src/assets/images/profile.JPG" 
+                  src="/profile.jpg" 
                   alt="Profile picture" 
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-center"
                 />
               </div>
             </div>
