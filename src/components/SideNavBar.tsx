@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSidebar } from '../contexts/SidebarContext';
 
 interface MenuItem {
@@ -10,6 +10,8 @@ interface MenuItem {
 
 const SideNavBar: React.FC = () => {
   const { isExpanded, setIsExpanded, isMobileMenuOpen, setIsMobileMenuOpen } = useSidebar();
+  const [activeSection, setActiveSection] = useState('home');
+  const [isUserClicking, setIsUserClicking] = useState(false);
 
   const menuItems: MenuItem[] = [
     {
@@ -104,19 +106,60 @@ const SideNavBar: React.FC = () => {
     }
   ];
 
-  const handleMenuClick = (href: string) => {
-    // Scroll to section (you can enhance this with smooth scrolling)
+  // Scroll detection to set active section
+  useEffect(() => {
+    const handleScroll = () => {
+      // Don't update active section if user just clicked a menu item
+      if (isUserClicking) return;
+      
+      const sections = ['home', 'about', 'certifications', 'technical-skills', 'experience', 'education', 'projects', 'contact', 'resume'];
+      
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = document.getElementById(sections[i]);
+        if (section) {
+          const rect = section.getBoundingClientRect();
+          // Check if section is in viewport (with some offset for header)
+          if (rect.top <= 150 && rect.bottom >= 150) {
+            setActiveSection(sections[i]);
+            break;
+          }
+        }
+      }
+    };
+
+    // Add scroll listener
+    window.addEventListener('scroll', handleScroll);
+    // Call once to set initial state
+    handleScroll();
+
+    // Cleanup
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isUserClicking]);
+
+  const handleMenuClick = (href: string, id: string) => {
+    // Set active section immediately
+    setActiveSection(id);
+    // Disable scroll detection temporarily
+    setIsUserClicking(true);
+    
+    // Scroll to section
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
+    
+    // Re-enable scroll detection after scrolling is likely complete
+    setTimeout(() => {
+      setIsUserClicking(false);
+    }, 1000); // 1 second delay to allow smooth scroll to complete
+    
     setIsMobileMenuOpen(false); // Close mobile menu after clicking
   };
 
   return (
     <>
       {/* Desktop Sidebar */}
-      <div className={`hidden lg:flex fixed left-0 top-25 h-[calc(100vh-5rem)] bg-gradient-to-b from-slate-800 to-slate-900 dark:from-gray-900 dark:to-black shadow-2xl transition-all duration-300 ease-in-out z-40 ${
+      <div className={`hidden lg:flex fixed left-0 top-25 h-[calc(100vh-5rem)] bg-gray-600 dark:bg-gradient-to-b dark:from-gray-900 dark:to-black shadow-2xl transition-all duration-300 ease-in-out z-40 ${
         isExpanded ? 'w-64' : 'w-16'
       }`}>
         <div className="flex flex-col w-full">
@@ -126,7 +169,7 @@ const SideNavBar: React.FC = () => {
             <div className="px-2 mb-2">
               <button
                 onClick={() => setIsExpanded(!isExpanded)}
-                className={`w-full flex items-center p-2 rounded-lg text-slate-400 hover:bg-slate-700 hover:text-white transition-all duration-200 group ${
+                className={`w-full flex items-center p-2 rounded-lg text-slate-300 dark:text-slate-400 hover:bg-gray-700 dark:hover:bg-slate-700 hover:text-white transition-all duration-200 group ${
                   isExpanded ? 'justify-start' : 'justify-center'
                 }`}
                 title={isExpanded ? 'Collapse menu' : 'Expand menu'}
@@ -150,7 +193,7 @@ const SideNavBar: React.FC = () => {
                   </span>
                 )}
                 {!isExpanded && (
-                  <div className="absolute left-16 bg-slate-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+                  <div className="absolute left-16 bg-gray-700 dark:bg-slate-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
                     Expand menu
                   </div>
                 )}
@@ -159,34 +202,41 @@ const SideNavBar: React.FC = () => {
 
             {/* Subtle divider */}
             <div className="mx-2 mb-2">
-              <div className="h-px bg-slate-700"></div>
+              <div className="h-px bg-gray-500 dark:bg-slate-700"></div>
             </div>
 
             <ul className="space-y-2 px-2">
-              {menuItems.map((item) => (
-                <li key={item.id}>
-                  <button
-                    onClick={() => handleMenuClick(item.href)}
-                    className={`w-full flex items-center p-3 rounded-lg text-slate-300 hover:bg-slate-700 hover:text-white transition-all duration-200 group ${
-                      isExpanded ? 'justify-start' : 'justify-center'
-                    }`}
-                  >
-                    <span className="flex-shrink-0">
-                      {item.icon}
-                    </span>
-                    {isExpanded && (
-                      <span className="ml-3 text-sm font-medium opacity-0 animate-fade-in-right">
-                        {item.title}
+              {menuItems.map((item) => {
+                const isActive = activeSection === item.id;
+                return (
+                  <li key={item.id}>
+                    <button
+                      onClick={() => handleMenuClick(item.href, item.id)}
+                      className={`w-full flex items-center p-3 rounded-lg transition-all duration-200 group ${
+                        isExpanded ? 'justify-start' : 'justify-center'
+                      } ${
+                        isActive 
+                          ? 'bg-blue-600 text-white shadow-lg' 
+                          : 'text-slate-200 dark:text-slate-300 hover:bg-gray-700 dark:hover:bg-slate-700 hover:text-white'
+                      }`}
+                    >
+                      <span className="flex-shrink-0">
+                        {item.icon}
                       </span>
-                    )}
-                    {!isExpanded && (
-                      <div className="absolute left-16 bg-slate-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-                        {item.title}
-                      </div>
-                    )}
-                  </button>
-                </li>
-              ))}
+                      {isExpanded && (
+                        <span className="ml-3 text-sm font-medium opacity-0 animate-fade-in-right">
+                          {item.title}
+                        </span>
+                      )}
+                      {!isExpanded && (
+                        <div className="absolute left-16 bg-gray-700 dark:bg-slate-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+                          {item.title}
+                        </div>
+                      )}
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
           </nav>
         </div>
@@ -195,7 +245,7 @@ const SideNavBar: React.FC = () => {
       {/* Mobile Hamburger Button */}
       <button
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-3 bg-slate-800 text-white rounded-lg shadow-lg hover:bg-slate-700 transition-colors duration-200"
+        className="lg:hidden fixed top-4 left-4 z-50 p-3 bg-gray-600 dark:bg-slate-800 text-white rounded-lg shadow-lg hover:bg-gray-700 dark:hover:bg-slate-700 transition-colors duration-200"
       >
         <svg 
           className={`w-6 h-6 transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-90' : ''}`}
@@ -217,16 +267,16 @@ const SideNavBar: React.FC = () => {
       )}
 
       {/* Mobile Menu */}
-      <div className={`lg:hidden fixed left-0 top-0 h-full w-64 bg-gradient-to-b from-slate-800 to-slate-900 dark:from-gray-900 dark:to-black shadow-2xl transform transition-transform duration-300 ease-in-out z-50 ${
+      <div className={`lg:hidden fixed left-0 top-0 h-full w-64 bg-gray-600 dark:bg-gradient-to-b dark:from-gray-900 dark:to-black shadow-2xl transform transition-transform duration-300 ease-in-out z-50 ${
         isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
         <div className="flex flex-col h-full">
           {/* Mobile Menu Header */}
-          <div className="flex items-center justify-between p-4 border-b border-slate-700 mt-16">
+          <div className="flex items-center justify-between p-4 border-b border-gray-500 dark:border-slate-700 mt-16">
             <h2 className="text-white font-semibold">Menu</h2>
             <button
               onClick={() => setIsMobileMenuOpen(false)}
-              className="p-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-white transition-colors duration-200"
+              className="p-2 rounded-lg bg-gray-700 hover:bg-gray-800 dark:bg-slate-700 dark:hover:bg-slate-600 text-white transition-colors duration-200"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -237,21 +287,28 @@ const SideNavBar: React.FC = () => {
           {/* Mobile Menu Items */}
           <nav className="flex-1 py-4">
             <ul className="space-y-2 px-4">
-              {menuItems.map((item) => (
-                <li key={item.id}>
-                  <button
-                    onClick={() => handleMenuClick(item.href)}
-                    className="w-full flex items-center p-3 rounded-lg text-slate-300 hover:bg-slate-700 hover:text-white transition-all duration-200"
-                  >
-                    <span className="flex-shrink-0">
-                      {item.icon}
-                    </span>
-                    <span className="ml-3 text-sm font-medium">
-                      {item.title}
-                    </span>
-                  </button>
-                </li>
-              ))}
+              {menuItems.map((item) => {
+                const isActive = activeSection === item.id;
+                return (
+                  <li key={item.id}>
+                    <button
+                      onClick={() => handleMenuClick(item.href, item.id)}
+                      className={`w-full flex items-center p-3 rounded-lg transition-all duration-200 ${
+                        isActive 
+                          ? 'bg-blue-600 text-white shadow-lg' 
+                          : 'text-slate-200 dark:text-slate-300 hover:bg-gray-700 dark:hover:bg-slate-700 hover:text-white'
+                      }`}
+                    >
+                      <span className="flex-shrink-0">
+                        {item.icon}
+                      </span>
+                      <span className="ml-3 text-sm font-medium">
+                        {item.title}
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
           </nav>
         </div>

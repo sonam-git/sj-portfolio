@@ -32,24 +32,36 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ project, onClose }) => {
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="relative">
-          <img
-            src={project.image}
-            alt={project.title}
-            className="w-full h-64 object-cover rounded-t-xl"
-          />
+        <div className="relative overflow-hidden">
+          <div className="relative h-80 group">
+            <img
+              src={project.image}
+              alt={project.title}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            {/* Gradient overlay for better text readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-transparent"></div>
+          </div>
+          
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 bg-white/90 dark:bg-gray-800/90 hover:bg-white dark:hover:bg-gray-800 p-2 rounded-full transition-colors duration-200"
+            className="absolute top-4 right-4 bg-white/90 dark:bg-gray-800/90 hover:bg-white dark:hover:bg-gray-800 p-2 rounded-full transition-all duration-200 backdrop-blur-sm hover:scale-110"
           >
             <svg className="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
-          <div className="absolute bottom-4 left-4">
-            <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(project.status)}`}>
+          
+          <div className="absolute bottom-4 left-4 flex items-center gap-3">
+            <span className={`px-4 py-2 rounded-full text-sm font-semibold backdrop-blur-sm border ${getStatusColor(project.status)}`}>
               {project.status.replace('-', ' ')}
             </span>
+            <div className="bg-white/20 backdrop-blur-sm rounded-full px-3 py-1">
+              <span className="text-white text-sm font-medium capitalize">
+                {project.category}
+              </span>
+            </div>
           </div>
         </div>
 

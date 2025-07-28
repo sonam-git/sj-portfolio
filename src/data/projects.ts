@@ -15,13 +15,28 @@ export interface Project {
   status: 'completed' | 'in-progress' | 'planned';
 }
 
+// Import actual images from assets
+import rosterHubImg from '../assets/images/Roster-hub.png';
+import techIntImg from '../assets/images/Tech-int.png';
+import emotionamicImg from '../assets/images/emotionamic.png';
+import heroImg from '../assets/images/hero.png';
+
+// Array of available images for random assignment
+const projectImages = [rosterHubImg, techIntImg, emotionamicImg, heroImg];
+
+// Function to get a random image (seeded by project id for consistency)
+const getProjectImage = (projectId: string): string => {
+  const index = (parseInt(projectId) - 1) % projectImages.length;
+  return projectImages[index];
+};
+
 export const projects: Project[] = [
   {
     id: '1',
     title: 'E-Commerce Platform',
     shortDescription: 'Full-stack e-commerce solution with modern UI/UX',
     description: 'A comprehensive e-commerce platform built with React and Node.js, featuring user authentication, product management, shopping cart, payment integration, and admin dashboard. The platform includes real-time inventory management and order tracking.',
-    image: '/api/placeholder/400/250',
+    image: getProjectImage('1'),
     technologies: ['React', 'Node.js', 'MongoDB', 'Express', 'Stripe API', 'Tailwind CSS'],
     startDate: '2024-01-15',
     endDate: '2024-04-20',
@@ -46,7 +61,7 @@ export const projects: Project[] = [
     title: 'Task Management App',
     shortDescription: 'Collaborative task management with real-time updates',
     description: 'A modern task management application that allows teams to collaborate effectively. Built with React and Firebase, it features real-time updates, drag-and-drop functionality, and comprehensive project tracking.',
-    image: '/api/placeholder/400/250',
+    image: getProjectImage('2'),
     technologies: ['React', 'Firebase', 'Material-UI', 'TypeScript', 'React DnD'],
     startDate: '2024-05-01',
     endDate: '2024-07-15',
@@ -71,7 +86,7 @@ export const projects: Project[] = [
     title: 'Weather Dashboard',
     shortDescription: 'Beautiful weather app with forecast and maps',
     description: 'An elegant weather dashboard that provides detailed weather information, forecasts, and interactive maps. Built with modern web technologies and integrated with multiple weather APIs for accurate data.',
-    image: '/api/placeholder/400/250',
+    image: getProjectImage('3'),
     technologies: ['Vue.js', 'OpenWeather API', 'Chart.js', 'Leaflet', 'Sass'],
     startDate: '2024-08-01',
     endDate: '2024-09-30',
@@ -96,7 +111,7 @@ export const projects: Project[] = [
     title: 'Social Media Analytics',
     shortDescription: 'Analytics dashboard for social media insights',
     description: 'A comprehensive analytics dashboard that aggregates data from multiple social media platforms to provide insights into engagement, reach, and performance metrics.',
-    image: '/api/placeholder/400/250',
+    image: getProjectImage('4'),
     technologies: ['React', 'D3.js', 'Python', 'Django', 'PostgreSQL', 'Redis'],
     startDate: '2024-10-01',
     endDate: '2024-12-15',
@@ -120,7 +135,7 @@ export const projects: Project[] = [
     title: 'Mobile Fitness Tracker',
     shortDescription: 'Cross-platform fitness tracking mobile app',
     description: 'A comprehensive fitness tracking mobile application built with React Native. Features workout planning, progress tracking, and social features to motivate users.',
-    image: '/api/placeholder/400/250',
+    image: getProjectImage('5'),
     technologies: ['React Native', 'Expo', 'Firebase', 'Redux', 'AsyncStorage'],
     startDate: '2024-03-01',
     endDate: '2024-06-30',
@@ -144,7 +159,7 @@ export const projects: Project[] = [
     title: 'AI Code Assistant',
     shortDescription: 'AI-powered code completion and analysis tool',
     description: 'An intelligent code assistant that provides AI-powered code completion, analysis, and suggestions. Built as a VS Code extension with machine learning capabilities.',
-    image: '/api/placeholder/400/250',
+    image: getProjectImage('6'),
     technologies: ['TypeScript', 'VS Code API', 'Python', 'TensorFlow', 'OpenAI API'],
     startDate: '2024-07-01',
     endDate: '2024-11-30',
@@ -168,7 +183,7 @@ export const projects: Project[] = [
     title: 'Blockchain Voting System',
     shortDescription: 'Secure voting platform using blockchain technology',
     description: 'A decentralized voting system built on blockchain technology ensuring transparency, security, and immutability of votes. Features smart contracts and modern web interface.',
-    image: '/api/placeholder/400/250',
+    image: getProjectImage('7'),
     technologies: ['Solidity', 'Web3.js', 'React', 'Ethereum', 'IPFS', 'MetaMask'],
     startDate: '2024-09-01',
     endDate: '2024-12-31',
@@ -192,7 +207,7 @@ export const projects: Project[] = [
     title: 'IoT Home Automation',
     shortDescription: 'Smart home control system with IoT integration',
     description: 'A comprehensive home automation system that integrates various IoT devices for smart home control. Features include voice control, scheduling, and energy monitoring.',
-    image: '/api/placeholder/400/250',
+    image: getProjectImage('8'),
     technologies: ['Arduino', 'Raspberry Pi', 'Node.js', 'MQTT', 'React', 'MongoDB'],
     startDate: '2024-11-01',
     endDate: '2025-03-31',
