@@ -11,7 +11,7 @@ const TechnicalSkill: React.FC = () => {
       darkBgColor: 'from-blue-900/30 to-blue-800/30'
     },
     {
-      title: 'Frameworks/Libraries',
+      title: 'Frameworks | Libraries',
       skills: ['React', 'Redux', 'Node.js', 'Express.js', 'Next.js', 'Handlebars', 'jQuery'],
       icon: '⚛️',
       color: 'from-green-400 to-green-600',
@@ -129,7 +129,7 @@ const TechnicalSkill: React.FC = () => {
                     <div className={`w-2 h-2 bg-gradient-to-r ${category.color} rounded-full mr-2 animate-pulse`}></div>
                     <span className="text-gray-400 dark:text-gray-400">
                       {category.title === 'Languages' ? 'Core' : 
-                       category.title === 'Frameworks/Libraries' ? 'Advanced' :
+                       category.title === 'Frameworks | Libraries' ? 'Advanced' :
                        category.title === 'Databases' ? 'Proficient' :
                        category.title === 'APIs' ? 'Experienced' :
                        category.title === 'Tools' ? 'Expert' : 'Strong'}

@@ -59,12 +59,20 @@ const Resume: React.FC = () => {
                     <h4 className="font-semibold text-gray-900 dark:text-white mb-3 text-lg">Core Skills</h4>
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-600 dark:text-gray-300">React & TypeScript</span>
+                        <span className="text-gray-600 dark:text-gray-300">React | Redux | TypeScript</span>
+                        <span className="text-blue-600 dark:text-blue-400 font-medium">Advanced</span>
+                      </div>
+                        <div className="flex justify-between text-sm">
+                        <span className="text-gray-600 dark:text-gray-300">HTML | CSS | JavaScript</span>
                         <span className="text-blue-600 dark:text-blue-400 font-medium">Advanced</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-600 dark:text-gray-300">WordPress & PHP</span>
+                        <span className="text-gray-600 dark:text-gray-300">WordPress</span>
                         <span className="text-green-600 dark:text-green-400 font-medium">Expert</span>
+                      </div>
+                        <div className="flex justify-between text-sm">
+                        <span className="text-gray-600 dark:text-gray-300">Python</span>
+                        <span className="text-blue-600 dark:text-blue-400 font-medium">Advanced</span>
                       </div>
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-600 dark:text-gray-300">UI/UX Design</span>
@@ -118,10 +126,16 @@ const Resume: React.FC = () => {
 
                   <div>
                     <h4 className="font-semibold text-gray-900 dark:text-white mb-3 text-lg">Education</h4>
-                    <div className="border-l-3 border-purple-500 pl-4">
+                    <div className="border-l-3 border-purple-500 pl-4 mb-2">
                       <h5 className="font-medium text-gray-900 dark:text-white">Associate Degree in Computer Science</h5>
                       <p className="text-purple-600 dark:text-purple-400 text-sm">Santa Rosa Junior College</p>
-                      <p className="text-gray-500 dark:text-gray-400 text-xs">Aug 2021 – Present</p>
+                      <p className="text-gray-500 dark:text-gray-400 text-xs"> 2020 – 2022</p>
+                    </div>
+                    <hr />
+                    <div className="border-l-3 border-purple-500 pl-4">
+                      <h5 className="font-medium text-gray-900 dark:text-white">Bootcamp Full Flex Web Developer</h5>
+                      <p className="text-purple-600 dark:text-purple-400 text-sm">UC Berkeley Extension, Berkeley</p>
+                      <p className="text-gray-500 dark:text-gray-400 text-xs">Jan 2023 – July 2023</p>
                     </div>
                   </div>
 
