@@ -1,6 +1,8 @@
 import React from 'react';
+import { useContactModal } from '../contexts/ContactModalContext';
 
 const Footer: React.FC = () => {
+  const { openContactModal } = useContactModal();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -83,19 +85,27 @@ const Footer: React.FC = () => {
               <p className="text-gray-300 dark:text-gray-400 text-sm">
                 Let's build something amazing!
               </p>
-              <button 
-                onClick={() => {
-                  // Email obfuscation - decode at runtime
-                  const user = 'sherpa.sjs';
-                  const domain = 'gmail.com';
-                  const subject = encodeURIComponent('Hello Sonam - Let\'s Work Together');
-                  const body = encodeURIComponent('Hi Sonam,\n\nI found your portfolio and I\'m interested in working with you.\n\nPlease let me know your availability.\n\nBest regards,');
-                  window.location.href = `mailto:${user}@${domain}?subject=${subject}&body=${body}`;
-                }}
-                className="inline-block bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-2 rounded-full text-sm font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300 mt-4 cursor-pointer"
-              >
-                Contact Me
-              </button>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button 
+                  onClick={openContactModal}
+                  className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-2 rounded-full text-sm font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer"
+                >
+                  Get In Touch
+                </button>
+                <button 
+                  onClick={() => {
+                    // Email obfuscation - decode at runtime
+                    const user = 'sherpa.sjs';
+                    const domain = 'gmail.com';
+                    const subject = encodeURIComponent('Hello Sonam - Let\'s Work Together');
+                    const body = encodeURIComponent('Hi Sonam,\n\nI found your portfolio and I\'m interested in working with you.\n\nPlease let me know your availability.\n\nBest regards,');
+                    window.location.href = `mailto:${user}@${domain}?subject=${subject}&body=${body}`;
+                  }}
+                  className="bg-slate-700 hover:bg-slate-600 text-white px-6 py-2 rounded-full text-sm font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer"
+                >
+                  Direct Email
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -109,19 +119,6 @@ const Footer: React.FC = () => {
                 © {currentYear} Sonam J Sherpa. All rights reserved.
               </p>
                <div className="mt-12 flex flex-wrap justify-center items-center gap-4 sm:gap-6">
-              <div className="text-xs sm:text-sm text-gray-400 font-medium tracking-wider uppercase">Built with</div>
-              <div className="flex flex-wrap gap-3 sm:gap-4">
-                {['React', 'TypeScript', 'Tailwind', 'Vite'].map((tech, index) => (
-                  <div
-                    key={tech}
-                    className="flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 text-gray-200 text-xs sm:text-sm font-medium hover:bg-white/20 transition-all duration-300 animate-fade-in-up"
-                    style={{ animationDelay: `${800 + index * 100}ms` }}
-                  >
-                    <div className="w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full"></div>
-                    {tech}
-                  </div>
-                ))}
-              </div>
             </div>
             </div>
             

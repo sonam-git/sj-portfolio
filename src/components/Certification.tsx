@@ -12,6 +12,15 @@ const Certification: React.FC = () => {
       description: 'Comprehensive certification covering modern web and mobile front-end development technologies and best practices.'
     },
     {
+      title: 'AWS Certified Cloud Practitioner',
+      institution: 'Amazon Web Services (AWS)',
+      icon: '☁️',
+      color: 'from-orange-400 to-orange-600',
+      bgColor: 'from-orange-50 to-orange-100',
+      darkBgColor: 'from-orange-900/30 to-orange-800/30',
+      description: 'Foundational certification demonstrating understanding of AWS Cloud services, architecture, security, and pricing models.'
+    },
+    {
       title: 'Web Team Certificate of Recognition',
       institution: 'Santa Rosa Junior College',
       icon: '🏆',
@@ -32,12 +41,12 @@ const Certification: React.FC = () => {
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 mx-auto mb-8"></div>
           <p className="text-xl text-slate-600 dark:text-gray-300 max-w-3xl mx-auto transition-colors duration-300">
-            Professional certifications and recognitions that validate my expertise in web development.
+            Professional certifications and recognitions that validate my expertise in web development and cloud technologies.
           </p>
         </div>
 
         {/* Certifications Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {certifications.map((certification, index) => (
             <div
               key={certification.title}
@@ -104,7 +113,7 @@ const Certification: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30 rounded-xl p-6 shadow-md border border-blue-100 dark:border-blue-800 transition-colors duration-300">
-              <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">2</div>
+              <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">3</div>
               <div className="text-sm text-slate-700 dark:text-gray-300">Professional Certifications</div>
             </div>
             <div className="text-center bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30 rounded-xl p-6 shadow-md border border-purple-100 dark:border-purple-800 transition-colors duration-300">
@@ -115,19 +124,6 @@ const Certification: React.FC = () => {
               <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">100%</div>
               <div className="text-sm text-slate-700 dark:text-gray-300">Commitment to Learning</div>
             </div>
-          </div>
-        </div>
-
-        {/* Call to Action */}
-        <div className="mt-16 text-center">
-          <div className="bg-gradient-to-r from-blue-500 to-purple-500 dark:from-blue-500 dark:to-purple-500 rounded-2xl p-8 text-white shadow-2xl">
-            <h3 className="text-2xl font-bold mb-4">Let's Build Something Great Together</h3>
-            <p className="text-blue-100 dark:text-purple-100 mb-6 max-w-2xl mx-auto">
-              With certified expertise and a passion for excellence, I'm ready to bring your vision to life.
-            </p>
-            <button className="bg-white text-blue-500 font-semibold px-8 py-3 rounded-full hover:bg-gray-100 transition-all duration-300 hover:shadow-lg hover:scale-105">
-              Get In Touch
-            </button>
           </div>
         </div>
       </div>

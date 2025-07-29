@@ -1,6 +1,8 @@
 import React from 'react';
+import { useContactModal } from '../contexts/ContactModalContext';
 
 const TechnicalSkill: React.FC = () => {
+  const { openContactModal } = useContactModal();
   const skillCategories = [
     {
       title: 'Languages',
@@ -183,7 +185,10 @@ const TechnicalSkill: React.FC = () => {
             <p className="text-blue-100 dark:text-purple-100 mb-6 max-w-2xl mx-auto">
               Let's collaborate and bring your ideas to life using these technologies and more.
             </p>
-            <button className="bg-white text-blue-500 font-semibold px-8 py-3 rounded-full hover:bg-gray-100 transition-all duration-300 hover:shadow-lg hover:scale-105">
+            <button 
+              onClick={openContactModal}
+              className="bg-white text-blue-500 font-semibold px-8 py-3 rounded-full hover:bg-gray-100 transition-all duration-300 hover:shadow-lg hover:scale-105"
+            >
               Get In Touch
             </button>
           </div>

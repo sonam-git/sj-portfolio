@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { sendEmail } from '../services/emailService';
 
 interface FormData {
   name: string;
@@ -18,6 +19,7 @@ const Contact: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string>('');
   const [errors, setErrors] = useState<Partial<FormData>>({});
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -84,13 +86,17 @@ const Contact: React.FC = () => {
     }
 
     setIsSubmitting(true);
+    setSubmitError(''); // Clear any previous errors
 
     try {
-      // Simulate API call - replace with actual email service
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Here you would integrate with an email service like EmailJS, Formspree, or your backend
-      console.log('Form submitted:', formData);
+      // Send email using EmailJS
+      await sendEmail({
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        to_email: 'sherpa.sjs@gmail.com'
+      });
       
       setIsSubmitted(true);
       
@@ -111,10 +117,18 @@ const Contact: React.FC = () => {
       
     } catch (error) {
       console.error('Error sending message:', error);
-      // Handle error (show error message)
+      setSubmitError(`${error instanceof Error ? error.message : 'Failed to send message.'} Use the "Send via Email" button below as an alternative.`);
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleEmailFallback = () => {
+    const subject = encodeURIComponent(`Portfolio Contact: ${formData.subject}`);
+    const body = encodeURIComponent(
+      `Hi Sonam,\n\n${formData.message}\n\nBest regards,\n${formData.name}\n${formData.email}`
+    );
+    window.location.href = `mailto:sherpa.sjs@gmail.com?subject=${subject}&body=${body}`;
   };
 
   const formatFileSize = (bytes: number): string => {
@@ -387,6 +401,26 @@ const Contact: React.FC = () => {
                   )}
                 </div>
               </div>
+
+              {/* Error Message */}
+              {submitError && (
+                <div className="p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-xl">
+                  <div className="flex items-start space-x-2">
+                    <svg className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <div className="flex-1">
+                      <p className="text-sm text-red-700 dark:text-red-300 mb-3">{submitError}</p>
+                      <button
+                        onClick={handleEmailFallback}
+                        className="text-sm bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                      >
+                        Send via Email App
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Submit Button */}
               <div className="pt-4">
