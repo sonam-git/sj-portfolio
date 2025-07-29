@@ -15,9 +15,9 @@ const Certification: React.FC = () => {
       title: 'AWS Certified Cloud Practitioner',
       institution: 'Amazon Web Services (AWS)',
       icon: '☁️',
-      color: 'from-orange-400 to-orange-600',
-      bgColor: 'from-orange-50 to-orange-100',
-      darkBgColor: 'from-orange-900/30 to-orange-800/30',
+      color: 'from-green-400 to-green-600',
+      bgColor: 'from-green-50 to-green-100',
+      darkBgColor: 'from-green-900/30 to-green-800/30',
       description: 'Foundational certification demonstrating understanding of AWS Cloud services, architecture, security, and pricing models.'
     },
     {

@@ -55,7 +55,7 @@ const TechnicalSkill: React.FC = () => {
   ];
 
   return (
-    <section id="technical-skills" className="py-24 bg-gradient-to-br from-slate-800 to-slate-900 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black relative transition-colors duration-300">
+    <section id="technical-skills" className="py-24 bg-gradient-to-br from-gray-800 to-gray-900 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black relative transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-16  mt-4">

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useSidebar } from '../contexts/SidebarContext';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -6,20 +7,21 @@ interface MenuItem {
   id: string;
   title: string;
   icon: React.ReactNode;
-  href: string;
+  path: string;
 }
 
-const SideNavBar: React.FC = () => {
+const SideNavBarRouter: React.FC = () => {
   const { isExpanded, setIsExpanded, isMobileMenuOpen, setIsMobileMenuOpen } = useSidebar();
   const { isDarkMode } = useTheme();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [activeSection, setActiveSection] = useState('home');
-  const [isUserClicking, setIsUserClicking] = useState(false);
 
-  const menuItems: MenuItem[] = [
+  const menuItems: MenuItem[] = useMemo(() => [
     {
       id: 'home',
       title: 'Home',
-      href: '#home',
+      path: '/',
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -29,7 +31,7 @@ const SideNavBar: React.FC = () => {
     {
       id: 'about',
       title: 'About',
-      href: '#about',
+      path: '/about',
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -39,7 +41,7 @@ const SideNavBar: React.FC = () => {
     {
       id: 'certifications',
       title: 'Certifications',
-      href: '#certifications',
+      path: '/certifications',
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
@@ -49,7 +51,7 @@ const SideNavBar: React.FC = () => {
     {
       id: 'technical-skills',
       title: 'Skills',
-      href: '#technical-skills',
+      path: '/technical-skills',
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
@@ -59,7 +61,7 @@ const SideNavBar: React.FC = () => {
     {
       id: 'experience',
       title: 'Experience',
-      href: '#experience',
+      path: '/experience',
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0H8m8 0v2a2 2 0 01-2 2H10a2 2 0 01-2-2V6m8 0V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2" />
@@ -69,7 +71,7 @@ const SideNavBar: React.FC = () => {
     {
       id: 'education',
       title: 'Education',
-      href: '#education',
+      path: '/education',
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
@@ -79,7 +81,7 @@ const SideNavBar: React.FC = () => {
     {
       id: 'projects',
       title: 'Projects',
-      href: '#projects',
+      path: '/projects',
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
@@ -89,7 +91,7 @@ const SideNavBar: React.FC = () => {
     {
       id: 'contact',
       title: 'Contact',
-      href: '#contact',
+      path: '/contact',
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -99,94 +101,35 @@ const SideNavBar: React.FC = () => {
     {
       id: 'resume',
       title: 'Resume',
-      href: '#resume',
+      path: '/resume',
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
       )
     }
-  ];
+  ], []);
 
-  // Handle browser back/forward and initial hash
+  // Update active section based on current location
   useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash;
-      if (hash) {
-        const id = hash.substring(1); // Remove the '#' character
-        const validSections = ['home', 'about', 'certifications', 'technical-skills', 'experience', 'education', 'projects', 'contact', 'resume'];
-        if (validSections.includes(id)) {
-          setActiveSection(id);
-          const element = document.querySelector(hash);
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-          }
-        }
-      }
-    };
+    const currentPath = location.pathname;
+    const currentItem = menuItems.find(item => item.path === currentPath);
+    if (currentItem) {
+      setActiveSection(currentItem.id);
+    } else if (currentPath === '/') {
+      setActiveSection('home');
+    }
+  }, [location.pathname, menuItems]);
 
-    // Handle initial hash on page load
-    handleHashChange();
-
-    // Listen for hash changes (back/forward buttons)
-    window.addEventListener('hashchange', handleHashChange);
-
-    return () => {
-      window.removeEventListener('hashchange', handleHashChange);
-    };
-  }, []);
-
-  // Scroll detection to set active section
-  useEffect(() => {
-    const handleScroll = () => {
-      // Don't update active section if user just clicked a menu item
-      if (isUserClicking) return;
-      
-      const sections = ['home', 'about', 'certifications', 'technical-skills', 'experience', 'education', 'projects', 'contact', 'resume'];
-      
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = document.getElementById(sections[i]);
-        if (section) {
-          const rect = section.getBoundingClientRect();
-          // Check if section is in viewport (with some offset for header)
-          if (rect.top <= 150 && rect.bottom >= 150) {
-            setActiveSection(sections[i]);
-            break;
-          }
-        }
-      }
-    };
-
-    // Add scroll listener
-    window.addEventListener('scroll', handleScroll);
-    // Call once to set initial state
-    handleScroll();
-
-    // Cleanup
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isUserClicking]);
-
-  const handleMenuClick = (href: string, id: string) => {
+  const handleMenuClick = (path: string, id: string) => {
     // Set active section immediately
     setActiveSection(id);
-    // Disable scroll detection temporarily
-    setIsUserClicking(true);
     
-    // Update URL hash
-    window.history.pushState(null, '', href);
+    // Navigate to the new route
+    navigate(path);
     
-    // Scroll to section
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-    
-    // Re-enable scroll detection after scrolling is likely complete
-    setTimeout(() => {
-      setIsUserClicking(false);
-    }, 1000); // 1 second delay to allow smooth scroll to complete
-    
-    setIsMobileMenuOpen(false); // Close mobile menu after clicking
+    // Close mobile menu after clicking
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -202,7 +145,7 @@ const SideNavBar: React.FC = () => {
         <div className="flex flex-col w-full">
           {/* Menu Items */}
           <nav className="flex-1 py-4">
-            {/* Toggle Arrow - positioned above Home */}
+            {/* Toggle Arrow */}
             <div className="px-2 mb-2">
               <button
                 onClick={() => setIsExpanded(!isExpanded)}
@@ -217,12 +160,10 @@ const SideNavBar: React.FC = () => {
               >
                 <span className="flex-shrink-0">
                   {isExpanded ? (
-                    // Left arrow (collapse)
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                     </svg>
                   ) : (
-                    // Right arrow (expand)
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
@@ -245,7 +186,7 @@ const SideNavBar: React.FC = () => {
               </button>
             </div>
 
-            {/* Subtle divider */}
+            {/* Divider */}
             <div className="mx-2 mb-2">
               <div className={`h-px ${
                 isDarkMode 
@@ -260,7 +201,7 @@ const SideNavBar: React.FC = () => {
                 return (
                   <li key={item.id}>
                     <button
-                      onClick={() => handleMenuClick(item.href, item.id)}
+                      onClick={() => handleMenuClick(item.path, item.id)}
                       className={`w-full flex items-center p-3 rounded-lg transition-all duration-200 group ${
                         isExpanded ? 'justify-start' : 'justify-center'
                       } ${
@@ -365,7 +306,7 @@ const SideNavBar: React.FC = () => {
                 return (
                   <li key={item.id}>
                     <button
-                      onClick={() => handleMenuClick(item.href, item.id)}
+                      onClick={() => handleMenuClick(item.path, item.id)}
                       className={`w-full flex items-center p-3 rounded-lg transition-all duration-200 ${
                         isActive 
                           ? 'bg-blue-600 text-white shadow-lg' 
@@ -392,4 +333,4 @@ const SideNavBar: React.FC = () => {
   );
 };
 
-export default SideNavBar;
+export default SideNavBarRouter;

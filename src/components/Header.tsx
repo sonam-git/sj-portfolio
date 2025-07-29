@@ -175,7 +175,7 @@ const Header: React.FC = () => {
           <div className="flex justify-center items-center space-x-3">
             {/* LinkedIn */}
             <a
-              href="https://linkedin.com/in/your-profile"
+              href="https://www.linkedin.com/in/sonam-j-sherpa/"
               target="_blank"
               rel="noopener noreferrer"
               className="group relative p-2.5 bg-gray-800/10 backdrop-blur-sm rounded-full hover:bg-gray-800/20 dark:bg-white/10 dark:hover:bg-white/20 transition-all duration-300 hover:scale-110"
@@ -191,7 +191,7 @@ const Header: React.FC = () => {
 
             {/* GitHub */}
             <a
-              href="https://github.com/your-username"
+              href="https://github.com/sonam-git"
               target="_blank"
               rel="noopener noreferrer"
               className="group relative p-2.5 bg-gray-800/10 backdrop-blur-sm rounded-full hover:bg-gray-800/20 dark:bg-white/10 dark:hover:bg-white/20 transition-all duration-300 hover:scale-110"
@@ -207,7 +207,7 @@ const Header: React.FC = () => {
 
             {/* Email */}
             <a
-              href="mailto:your.email@example.com"
+              href="mailto:sherpa.sjs@gmail.com"
               className="group relative p-2.5 bg-gray-800/10 backdrop-blur-sm rounded-full hover:bg-gray-800/20 dark:bg-white/10 dark:hover:bg-white/20 transition-all duration-300 hover:scale-110"
             >
               <svg
