@@ -2,7 +2,7 @@ import React from 'react'
 
 const Education: React.FC = () => {
   return (
-    <section id="education" className="py-24 bg-white dark:bg-gray-900 transition-colors duration-300">
+    <section id="education" className="py-12 bg-white dark:bg-gray-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16  mt-4">
           <h2 className="text-5xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6 transition-colors duration-300">

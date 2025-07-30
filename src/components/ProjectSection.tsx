@@ -29,7 +29,7 @@ const ProjectSection: React.FC = () => {
   ] as const;
 
   return (
-    <section id="projects" className="py-24 bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
+    <section id="projects" className="py-12 bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-16  mt-4">
@@ -117,8 +117,8 @@ const ProjectSection: React.FC = () => {
         </div>
 
         {/* GitHub Repository Call-to-Action */}
-        <div className="mt-16 relative">
-          <div className="bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 dark:from-gray-800 dark:via-blue-800 dark:to-purple-800 rounded-3xl p-8 md:p-12 shadow-2xl overflow-hidden relative">
+        <div className="mt-16 relative ">
+          <div className="bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 dark:bg-gray-800 dark:bg-none rounded-3xl p-8 md:p-12 shadow-2xl overflow-hidden relative">
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-10">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.3),transparent_50%)]"></div>

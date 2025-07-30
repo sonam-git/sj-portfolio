@@ -2,7 +2,7 @@ import Resume from '../components/Resume';
 
 const ResumePage: React.FC = () => {
   return (
-    <div className="transition-all duration-300">
+    <div className="pt-4 transition-all duration-300">
       <Resume />
     </div>
   );

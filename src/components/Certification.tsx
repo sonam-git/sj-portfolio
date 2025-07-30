@@ -32,7 +32,7 @@ const Certification: React.FC = () => {
   ];
 
   return (
-    <section id="certifications" className="py-24 bg-gradient-to-br from-slate-50 to-blue-50 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black transition-colors duration-300">
+    <section id="certifications" className="py-12 bg-gradient-to-br from-slate-50 to-blue-50 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-16  mt-4">
