@@ -94,8 +94,7 @@ const Contact: React.FC = () => {
         from_name: formData.name,
         from_email: formData.email,
         subject: formData.subject,
-        message: formData.message,
-        to_email: 'sherpa.sjs@gmail.com'
+        message: formData.message
       });
       
       setIsSubmitted(true);

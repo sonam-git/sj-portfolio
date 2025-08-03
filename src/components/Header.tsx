@@ -5,7 +5,7 @@ const Header: React.FC = () => {
   const { isDarkMode, toggleTheme } = useTheme();
   
   return (
-    <header className="sticky top-0 z-50 bg-gradient-to-r from-slate-100 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-slate-800 dark:to-gray-900 shadow-xl backdrop-blur-sm transition-colors duration-300 overflow-hidden">
+    <header className="sticky top-0 z-50 bg-gradient-to-r from-slate-100 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-slate-800 dark:to-gray-900 shadow-xl backdrop-blur-sm transition-colors duration-300 overflow-hidden border-b">
       {/* Coding Background Pattern for Light Mode */}
       <div className="absolute inset-0 opacity-30 dark:opacity-40">
         {/* Binary code pattern */}

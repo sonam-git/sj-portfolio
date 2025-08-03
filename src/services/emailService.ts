@@ -1,106 +1,49 @@
 import emailjs from '@emailjs/browser';
 
+// EmailJS configuration
+const SERVICE_ID = 'service_0lhfkgg';
+const TEMPLATE_ID = 'template_1yq6yzm';
+const PUBLIC_KEY = 'UE6-2wGFT4pfGt0FS';
+
 export interface EmailData {
   from_name: string;
   from_email: string;
-  subject: string;
+  subject?: string;
   message: string;
-  to_email: string;
 }
 
-export const sendEmail = async (emailData: EmailData): Promise<void> => {
+export const sendEmail = async (formData: EmailData): Promise<{ success: boolean; message: string }> => {
   try {
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-
-    // Configuration is validated at startup
-
-    if (!serviceId || !templateId || !publicKey) {
-      const missingVars = [];
-      if (!serviceId) missingVars.push('VITE_EMAILJS_SERVICE_ID');
-      if (!templateId) missingVars.push('VITE_EMAILJS_TEMPLATE_ID');
-      if (!publicKey) missingVars.push('VITE_EMAILJS_PUBLIC_KEY');
-      
-      throw new Error(`EmailJS configuration is missing: ${missingVars.join(', ')}. Please check your .env file.`);
-    }
-
-    const templateParams = {
-      from_name: emailData.from_name,
-      from_email: emailData.from_email,
-      subject: emailData.subject,
-      message: emailData.message,
-      to_email: emailData.to_email,
-      reply_to: emailData.from_email,
-    };
-
-    // Send email via EmailJS
-
+    // Initialize EmailJS with public key
+    emailjs.init(PUBLIC_KEY);
+    
     const response = await emailjs.send(
-      serviceId,
-      templateId,
-      templateParams,
-      publicKey
+      SERVICE_ID,
+      TEMPLATE_ID,
+      {
+        from_name: formData.from_name,
+        from_email: formData.from_email,
+        subject: formData.subject || 'Portfolio Contact Form',
+        message: formData.message,
+        to_email: 'sherpa.sjs@gmail.com', // Your email
+      }
     );
 
-    console.log('EmailJS Response:', response);
-
-    if (response.status !== 200) {
-      throw new Error(`Failed to send email. Status: ${response.status}, Text: ${response.text}`);
+    if (response.status === 200) {
+      return {
+        success: true,
+        message: 'Message sent successfully! I\'ll get back to you soon.'
+      };
+    } else {
+      throw new Error('Failed to send email');
     }
-
-    console.log('Email sent successfully!');    } catch (error) {
-      console.error('Detailed email error:', error);
-      
-      // Provide more specific error messages
-      if (error instanceof Error) {
-        if (error.message.includes('configuration is missing')) {
-          throw new Error('EmailJS is not properly configured. Please contact sherpa.sjs@gmail.com directly.');
-        } else if (error.message.includes('Invalid user') || error.message.includes('insufficient authentication scopes')) {
-          throw new Error('Email service authentication issue. Please contact sherpa.sjs@gmail.com directly.');
-        } else if (error.message.includes('Template')) {
-          throw new Error('Email template error. Please contact sherpa.sjs@gmail.com directly.');
-        } else if (error.message.includes('Network')) {
-          throw new Error('Network error. Please check your internet connection and try again.');
-        } else if (error.message.includes('412')) {
-          throw new Error('Email service needs re-authentication. Please contact sherpa.sjs@gmail.com directly.');
-        }
-      }
-      
-      throw new Error('Email service temporarily unavailable. Please contact sherpa.sjs@gmail.com directly.');
-    }
-};
-
-// Initialize EmailJS
-export const initEmailJS = () => {
-  const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-  
-  if (publicKey) {
-    try {
-      // Initialize with enhanced configuration for better reliability
-      emailjs.init({
-        publicKey: publicKey,
-        blockHeadless: true,
-        blockList: {
-          list: ['localhost'],
-          watchVariable: 'userAgent',
-        },
-        limitRate: {
-          id: 'app',
-          throttle: 10000,
-        },
-      });
-      console.log('✅ EmailJS initialized successfully');
-    } catch (error) {
-      console.warn('Failed to initialize EmailJS with enhanced config, trying simple init:', error);
-      try {
-        emailjs.init(publicKey);
-        console.log('✅ EmailJS initialized successfully (simple mode)');
-      } catch (simpleError) {
-        console.error('❌ Failed to initialize EmailJS:', simpleError);
-      }
-    }
-  } else {
-    console.error('❌ EmailJS public key is missing from environment variables');
+  } catch (error) {
+    console.error('Email sending error:', error);
+    return {
+      success: false,
+      message: 'Failed to send message. Please try again or contact me directly.'
+    };
   }
 };
+
+export default { sendEmail };
