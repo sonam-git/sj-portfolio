@@ -3,7 +3,6 @@ import ProjectSection from './ProjectSection'
 import TechnicalSkill from './TechnicalSkill'
 import Contact from './Contact'
 import Certification from './Certification'
-import Footer from './Footer'
 import About from './About'
 import Experience from './Experience'
 import Education from './Education'
@@ -229,9 +228,6 @@ const Home: React.FC = () => {
 
       {/* Resume Section */}
       <Resume />
-
-      {/* Footer */}
-      <Footer />
     </div>
   )
 }
