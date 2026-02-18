@@ -16,11 +16,11 @@ export interface Project {
 }
 
 // Import actual project images from assets
-import hscImg from '../assets/images/project/hsc.png';
+import hscImg from '../assets/images/project/hscsonoma.png';
 import rosterHubImg from '../assets/images/project/Roster-hub.png';
-import weatherImg from '../assets/images/project/weather.png';
+import kidsImg from '../assets/images/project/imagikids.png';
 import techIntImg from '../assets/images/project/Tech-int.png';
-import alumniBookImg from '../assets/images/project/alumni-book.png';
+import quinielaImg from '../assets/images/project/quiniela.png';
 import ngimalayaImg from '../assets/images/project/ngimalaya.png';
 import emotionamicImg from '../assets/images/project/emotionamic.png';
 import reduxShopImg from '../assets/images/project/redux-shop.png';
@@ -29,9 +29,9 @@ import reduxShopImg from '../assets/images/project/redux-shop.png';
 const projectImages = [
   hscImg,        // Project 1: HSC of Sonoma Website
   rosterHubImg,  // Project 2: Roster-Hub
-  weatherImg,    // Project 3: Weather Dashboard
+  kidsImg,      // Project 3: Imagi Kids
   techIntImg,    // Project 4: Tech Int Prep
-  alumniBookImg, // Project 5: MEARN alumni-book
+  quinielaImg,   // Project 5: Quiniela App
   ngimalayaImg,  // Project 6: Ngimalaya Adventure
   emotionamicImg,// Project 7: Emotionamics
   reduxShopImg   // Project 8: Redux-shop
@@ -48,21 +48,21 @@ export const projects: Project[] = [
     id: '1',
     title: 'HSC of Sonoma Website',
     shortDescription: 'WordPress website for non profit organization',
-    description: 'I designed and developed a fully responsive website (including Logo design) for the Himalayan Sherpa Club of Sonoma, a 501(c)(3) nonprofit organization, using WordPress. The site highlights the organization\'s history, mission, and vision while providing a platform for community engagement. In addition to web development, I created the organization\'s logo to reflect its cultural identity. This part-time freelance project included content development and research to accurately represent the organization\'s values.',
+    description: 'I designed and developed a fully responsive website (including Logo design) for the Himalayan Sherpa Club of Sonoma, a 501(c)(3) nonprofit organization, using WordPress(later switched into Next.js and modern frontend technologies). The site highlights the organization\'s history, mission, and vision while providing a platform for community engagement. In addition to web development, I created the organization\'s logo to reflect its cultural identity. This part-time freelance project included content development and research to accurately represent the organization\'s values.',
     image: getProjectImage('1'),
     technologies: ['WordPress', 'Elementor', 'SEO', 'Logo Design'],
     startDate: '2025-01-01',
     endDate: '2025-05-01',
     duration: '5 months',
     features: [
-      'Fully responsive WordPress website design',
+      'Fully responsive WordPress website design(first version)',
+      'Next.js migration for improved performance',
       'Custom logo design reflecting cultural identity',
       'Organization history, mission, and vision showcase',
       'Community engagement platform',
       'Content development and research',
       'SEO optimization for better visibility',
       '501(c)(3) nonprofit organization branding',
-      'Elementor page builder integration'
     ],
     githubUrl: '',
     liveUrl: 'https://www.himalayansherpaclubsonoma.org/',
@@ -80,6 +80,8 @@ export const projects: Project[] = [
     endDate: '2024-03-31',
     duration: '3 months',
     features: [
+      'Multi tenant application with MongoDB and Mongoose for data management',
+      'Multiple user roles (players, coaches, admins) with role-based access control',
       'User authentication using JWT tokens',
       'Player profile management with photos and social media links',
       'Teammate endorsement system for skills recognition',
@@ -93,34 +95,30 @@ export const projects: Project[] = [
       'Photo storage with Cloudinary integration'
     ],
     githubUrl: 'https://github.com/sonam-git/Roster-Hub-V2',
-    liveUrl: 'https://roster-hub-v2-240f2b371524.herokuapp.com/',
+    liveUrl: 'https://roster-hub-v2-y6j2.vercel.app/',
     category: 'fullstack',
     status: 'completed'
   },
   {
     id: '3',
-    title: 'Weather Dashboard',
-    shortDescription: 'Weather forecast application with 5-day forecast using OpenWeatherMap API',
-    description: 'Weather Dashboard is a simple weather forecast application that allows users to check current weather and daily weather forecasts for up to 5 days. The project demonstrates the use of server-side APIs by fetching data from OpenWeatherMap API. Built with vanilla JavaScript, jQuery, and Day.js libraries, the app runs in the browser and features dynamically updated HTML and CSS powered by jQuery for an interactive user experience.',
+    title: 'Imagi Kids',
+    shortDescription: 'Kids-friendly story generator application using AI.',
+    description: 'Imagi Kids is a kids-friendly story generator application that uses AI to create engaging and interactive stories for children. The platform allows users to input characters, settings, and plot elements, which the AI then weaves into a unique narrative. Built with modern web technologies, the application features a playful and colorful design to appeal to its young audience.',
     image: getProjectImage('3'),
-    technologies: ['HTML', 'CSS', 'JavaScript', 'jQuery', 'Day.js', 'OpenWeatherMap API'],
-    startDate: '2023-03-01',
-    endDate: '2024-03-30',
+    technologies: ['Next.js', 'CSS', 'JavaScript',  'Hugging Face API', 'Tailwind CSS'],
+    startDate: '2025-12-01',
+    endDate: '2025-12-30',
     duration: '1 month',
     features: [
-      'Current weather data display',
-      '5-day weather forecast functionality',
-      'OpenWeatherMap API integration',
-      'Dynamic HTML and CSS updates with jQuery',
-      'Server-side API data fetching',
-      'Date and time handling with Day.js',
-      'Interactive user interface',
-      'Real-time weather information',
-      'Location-based weather services',
+      'Character input and customization',
+      'Setting and plot element selection',
+      'AI-generated story weaving',
+      'Interactive story elements for user engagement',
+      'Playful and colorful UI design',
       'Responsive browser-based application'
     ],
-    githubUrl: 'https://github.com/sonam-git/Weather_Dashboard',
-    liveUrl: '',
+    githubUrl: 'https://github.com/sonam-git/kid-story',
+    liveUrl: 'https://kid-story-roan.vercel.app/',
     category: 'web',
     status: 'completed'
   },
@@ -151,41 +149,40 @@ export const projects: Project[] = [
   },
   {
     id: '5',
-    title: 'MEARN Alumni-Book',
-    shortDescription: 'Comprehensive social media application',
-    description: 'A comprehensive social media application that offers a user-friendly interface and extensive functionality. The application enables users to create, edit, and manage their posts while providing the ability to discover friends and posts, where they can share their content and comment on other users\' posts. The application ensures a seamless user experience, offering secure, responsive, and accessible features across various devices and screen sizes.',
+    title: 'Quiniela App',
+    shortDescription: 'Friendly Game Prediction App - Fullstack application with modern UI/UX',
+    description: 'The Quiniela App is a friendly game prediction platform that allows users to create and manage their predictions for Mexican professional league games. Built with a modern tech stack, the application features an intuitive user interface and seamless user experience.',
     image: getProjectImage('5'),
-    technologies: ['MongoDB', 'React', 'Cloudinary', 'GraphQL', 'Bcrypt'],
-    startDate: '2023-06-25',
-    endDate: '2023-07-25',
+    technologies: ['MongoDB', 'Next.js', 'Express', 'Restful API', 'Bcrypt'],
+    startDate: '2026-01-15',
+    endDate: '2026-02-15',
     duration: '1 month',
     features: [
       'Secure user authentication (sign up, log in, log out)',
-      'Create, add, delete, and edit posts functionality',
+      'Create, add, delete, and edit predictions for league games',
       'Friend discovery and management system',
-      'Comment system for user interaction',
-      'Add friends to friendlist feature',
-      'Responsive design for all devices and screen sizes',
-      'User-friendly interface with extensive functionality',
+        'Real-time updates and notifications for game results',
+        'websocket integration for live score updates',
       'Secure and accessible across various platforms'
     ],
-    githubUrl: 'https://github.com/sonam-git/MEARN_Alumni_Book',
-    liveUrl: '',
+    githubUrl: 'https://github.com/sonam-git/quiniela',
+    liveUrl: 'https://quiniela-ten.vercel.app/',
     category: 'fullstack',
     status: 'completed'
   },
   {
     id: '6',
     title: 'Ngimalaya Adventure',
-    shortDescription: 'Trekking agency website using React | TypeScript | Tailwind CSS',
-    description: 'A modern trekking agency website built with React, TypeScript, and Tailwind CSS, showcasing adventure tours and trekking packages.',
+    shortDescription: 'Trekking agency website using Next.js | TypeScript | Tailwind CSS',
+    description: 'A modern trekking agency website built with Next.js, TypeScript, and Tailwind CSS, showcasing adventure tours and trekking packages.',
     image: getProjectImage('6'),
-    technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Vite'],
+    technologies: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Vite'],
     startDate: '2025-07-01',
     endDate: '2025-11-30',
     duration: '5 months',
     features: [
       'Modern responsive design',
+      'CMS driven content management',
       'Tour package showcase',
       'Booking system integration',
       'Image galleries',

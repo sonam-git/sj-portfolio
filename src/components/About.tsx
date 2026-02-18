@@ -1,4 +1,5 @@
 import React from 'react'
+import profileImage from '../assets/images/profile.jpeg'
 
 const About: React.FC = () => {
   return (
@@ -41,7 +42,7 @@ const About: React.FC = () => {
                 </div>
               </div>
               
-              <p className="text-lg text-slate-700 dark:text-gray-300 leading-relaxed mb-4">
+              <p className="text-md text-slate-700 dark:text-gray-300 leading-relaxed mb-4">
                 I'm a passionate developer with experience in modern web technologies. 
                 I love building applications that solve real-world problems and provide 
                 exceptional user experiences.
@@ -85,7 +86,7 @@ const About: React.FC = () => {
                 <div className="w-80 h-80 mx-auto bg-gradient-to-br from-blue-400 via-purple-500 to-indigo-600 rounded-full p-1 shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105">
                   <div className="w-full h-full rounded-full overflow-hidden bg-white dark:bg-gray-800 shadow-inner">
                     <img 
-                      src="/profile.jpg" 
+                      src={profileImage}
                       alt="Profile picture" 
                       className="w-full h-full object-cover object-center hover:scale-110 transition-transform duration-500"
                     />
