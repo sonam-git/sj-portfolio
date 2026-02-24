@@ -1,5 +1,20 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { sendEmail } from '../services/emailService';
+import {
+  sanitizeInput,
+  isValidEmail,
+  isValidName,
+  isMessageTooShort,
+  calculateSpamScore,
+  canSubmitForm,
+  recordSubmission,
+  getRemainingCooldown,
+  generateFormToken,
+  getHoneypotFieldName,
+} from '../utils/security';
+
+// reCAPTCHA site key - replace with your own from https://www.google.com/recaptcha/admin
+const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '';
 
 interface FormData {
   name: string;
@@ -7,6 +22,26 @@ interface FormData {
   subject: string;
   message: string;
   attachment: File | null;
+}
+
+interface SecurityData {
+  honeypot: string;
+  formStartTime: number;
+  formToken: string;
+  recaptchaToken: string;
+}
+
+// Declare reCAPTCHA types
+declare global {
+  interface Window {
+    grecaptcha: {
+      ready: (callback: () => void) => void;
+      execute: (siteKey: string, options: { action: string }) => Promise<string>;
+      render: (container: string | HTMLElement, options: object) => number;
+      reset: (widgetId?: number) => void;
+    };
+    onRecaptchaLoad?: () => void;
+  }
 }
 
 const Contact: React.FC = () => {
@@ -17,11 +52,97 @@ const Contact: React.FC = () => {
     message: '',
     attachment: null
   });
+  
+  // Security state
+  const [securityData, setSecurityData] = useState<SecurityData>({
+    honeypot: '',
+    formStartTime: Date.now(),
+    formToken: generateFormToken(),
+    recaptchaToken: '',
+  });
+  
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string>('');
-  const [errors, setErrors] = useState<Partial<FormData>>({});
+  const [errors, setErrors] = useState<Partial<FormData & { security?: string }>>({});
+  const [cooldownRemaining, setCooldownRemaining] = useState(0);
+  const [recaptchaLoaded, setRecaptchaLoaded] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Load reCAPTCHA script
+  useEffect(() => {
+    if (!RECAPTCHA_SITE_KEY) return;
+
+    const loadRecaptcha = () => {
+      if (document.querySelector('script[src*="recaptcha"]')) {
+        if (window.grecaptcha) {
+          setRecaptchaLoaded(true);
+        }
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`;
+      script.async = true;
+      script.defer = true;
+      script.onload = () => {
+        window.grecaptcha?.ready(() => {
+          setRecaptchaLoaded(true);
+        });
+      };
+      document.head.appendChild(script);
+    };
+
+    loadRecaptcha();
+  }, []);
+
+  // Update cooldown timer
+  useEffect(() => {
+    const remaining = getRemainingCooldown(60);
+    setCooldownRemaining(remaining);
+
+    if (remaining > 0) {
+      const timer = setInterval(() => {
+        const newRemaining = getRemainingCooldown(60);
+        setCooldownRemaining(newRemaining);
+        if (newRemaining <= 0) {
+          clearInterval(timer);
+        }
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [isSubmitted]);
+
+  // Reset form start time when form is reset
+  const resetSecurityData = useCallback(() => {
+    setSecurityData({
+      honeypot: '',
+      formStartTime: Date.now(),
+      formToken: generateFormToken(),
+      recaptchaToken: '',
+    });
+  }, []);
+
+  // Get reCAPTCHA token
+  const getRecaptchaToken = async (): Promise<string> => {
+    if (!RECAPTCHA_SITE_KEY || !recaptchaLoaded || !window.grecaptcha) {
+      return '';
+    }
+    try {
+      return await window.grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'contact_form' });
+    } catch (error) {
+      console.error('reCAPTCHA error:', error);
+      return '';
+    }
+  };
+
+  // Handle honeypot field change
+  const handleHoneypotChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSecurityData(prev => ({
+      ...prev,
+      honeypot: e.target.value,
+    }));
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -57,21 +178,37 @@ const Contact: React.FC = () => {
   };
 
   const validateForm = (): boolean => {
-    const newErrors: Partial<FormData> = {};
+    const newErrors: Partial<FormData & { security?: string }> = {};
 
+    // Basic validation
     if (!formData.name.trim()) {
       newErrors.name = 'Name is required';
+    } else if (!isValidName(formData.name)) {
+      newErrors.name = 'Please enter a valid name (letters only)';
     }
+
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email is invalid';
+    } else if (!isValidEmail(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
     }
+
     if (!formData.subject.trim()) {
       newErrors.subject = 'Subject is required';
+    } else if (formData.subject.trim().length < 3) {
+      newErrors.subject = 'Subject is too short';
     }
+
     if (!formData.message.trim()) {
       newErrors.message = 'Message is required';
+    } else if (isMessageTooShort(formData.message, 10)) {
+      newErrors.message = 'Please write a longer message (at least 10 characters)';
+    }
+
+    // Rate limiting check
+    if (!canSubmitForm(60)) {
+      const remaining = getRemainingCooldown(60);
+      newErrors.security = `Please wait ${remaining} seconds before sending another message`;
     }
 
     setErrors(newErrors);
@@ -85,17 +222,48 @@ const Contact: React.FC = () => {
       return;
     }
 
+    // Calculate spam score
+    const spamCheck = calculateSpamScore({
+      name: formData.name,
+      email: formData.email,
+      subject: formData.subject,
+      message: formData.message,
+      honeypot: securityData.honeypot,
+      formStartTime: securityData.formStartTime,
+    });
+
+    // Block if spam score is too high
+    if (spamCheck.score >= 50) {
+      console.warn('Spam detected:', spamCheck.reasons);
+      setSubmitError('Your message was flagged as potential spam. Please try again or contact me directly.');
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitError(''); // Clear any previous errors
 
     try {
-      // Send email using EmailJS
-      await sendEmail({
-        from_name: formData.name,
-        from_email: formData.email,
-        subject: formData.subject,
-        message: formData.message
-      });
+      // Get reCAPTCHA token if available
+      const recaptchaToken = await getRecaptchaToken();
+
+      // Sanitize inputs before sending
+      const sanitizedData = {
+        from_name: sanitizeInput(formData.name),
+        from_email: sanitizeInput(formData.email),
+        subject: sanitizeInput(formData.subject),
+        message: sanitizeInput(formData.message),
+        // Security data for server-side validation
+        _honeypot: securityData.honeypot,
+        _formToken: securityData.formToken,
+        _recaptchaToken: recaptchaToken,
+        _timestamp: securityData.formStartTime,
+      };
+
+      // Send email via backend
+      await sendEmail(sanitizedData);
+      
+      // Record successful submission for rate limiting
+      recordSubmission();
       
       setIsSubmitted(true);
       
@@ -109,6 +277,7 @@ const Contact: React.FC = () => {
           message: '',
           attachment: null
         });
+        resetSecurityData();
         if (fileInputRef.current) {
           fileInputRef.current.value = '';
         }
@@ -274,6 +443,52 @@ const Contact: React.FC = () => {
           {/* Contact Form */}
           <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-2xl border border-gray-100 dark:border-gray-700 transition-colors duration-300">
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Honeypot field - hidden from humans, bots will fill it */}
+              <div 
+                className="absolute opacity-0 pointer-events-none" 
+                style={{ position: 'absolute', left: '-9999px' }}
+                aria-hidden="true"
+              >
+                <label htmlFor={getHoneypotFieldName()}>
+                  Leave this field empty
+                </label>
+                <input
+                  type="text"
+                  id={getHoneypotFieldName()}
+                  name={getHoneypotFieldName()}
+                  value={securityData.honeypot}
+                  onChange={handleHoneypotChange}
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
+
+              {/* Security error message */}
+              {errors.security && (
+                <div className="p-4 bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-800 rounded-xl">
+                  <div className="flex items-center space-x-2">
+                    <svg className="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <p className="text-sm text-yellow-700 dark:text-yellow-300">{errors.security}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Cooldown indicator */}
+              {cooldownRemaining > 0 && (
+                <div className="p-4 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-xl">
+                  <div className="flex items-center space-x-2">
+                    <svg className="w-5 h-5 text-blue-600 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p className="text-sm text-blue-700 dark:text-blue-300">
+                      Please wait {cooldownRemaining} seconds before sending another message
+                    </p>
+                  </div>
+                </div>
+              )}
+
               {/* Name Field */}
               <div>
                 <label htmlFor="name" className="block text-sm font-semibold text-slate-700 dark:text-gray-300 mb-2">
